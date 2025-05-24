@@ -78,7 +78,7 @@ namespace SimpsonsHotel.Core.Classes
             }
         }
 
-        public decimal CalcularCostoTotal()
+        public new decimal CalcularCostoTotal()
         {
             return productosDisponibles.Sum(p => p.Precio * p.Cantidad);
         }
