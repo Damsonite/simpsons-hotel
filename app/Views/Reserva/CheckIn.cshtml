@@ -1,0 +1,29 @@
+@model SimpsonsHotel.Core.Classes.Reserva
+@{
+    ViewData["Title"] = "Check-In";
+}
+
+<div class="card">
+    <div class="card-content">
+        <h4 class="card-title">Confirmar Check-In</h4>
+
+        <p><strong>Nombre:</strong> @(Model.Persona != null ? Model.Persona.Nombre : "N/A")</p>
+        <p><strong>Documento:</strong> @(Model.Persona != null ? (Model.Persona.TipoDocumento + ". " + Model.Persona.NumeroDocumento.ToString()) : "N/A")</p>
+        <p><strong>Habitación:</strong> @(Model.Habitacion != null ? Model.Habitacion.Numero.ToString() : "N/A")</p>
+        <p><strong>Fecha de Llegada:</strong> @Model.FechaLlegada.ToShortDateString()</p>
+        <p><strong>Fecha de Salida:</strong> @Model.FechaSalida.ToShortDateString()</p>
+        @if (Model.Estado != SimpsonsHotel.Core.Classes.Reserva.EstadoReserva.SinEmpezar)
+        {
+            <div class="alert alert-warning">La reserva no está en estado 'SinEmpezar'. No se puede realizar el check-in.</div>
+            <a asp-action="Index" class="btn btn-secondary">Atrás</a>
+        }
+        else
+        {
+            <form asp-action="ConfirmarCheckIn" method="post">
+                <input type="hidden" name="id" value="@Model.Id" />
+                <button type="submit" class="btn btn-success">Confirmar</button>
+                <a asp-action="Index" class="btn btn-secondary">Atrás</a>
+            </form>
+        }
+    </div>
+</div>

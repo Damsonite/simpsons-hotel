@@ -1,0 +1,109 @@
+@using SimpsonsHotel.Core.Classes
+@model SimpsonsHotel.Core.Classes.Cliente
+@{
+    ViewData["Title"] = "Crear Cliente";
+}
+
+<div class="container">
+    <div class="row mb-4">
+        <div class="col">
+            <h1 class="simpsons-text-blue">Nuevo Cliente</h1>
+            <p class="lead">Registra un nuevo cliente en el sistema</p>
+        </div>
+        <div class="col-auto">
+            <a asp-action="Index" class="btn btn-secondary">
+                <i class="bi bi-arrow-left me-2"></i> Volver
+            </a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header simpsons-bg-yellow">
+                    <h4 class="card-title simpsons-text-blue mb-0">
+                        <i class="bi bi-person-plus me-2"></i> Información del Cliente
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Crear" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-12">
+                                <label asp-for="Nombre" class="form-label"></label>
+                                <input asp-for="Nombre" class="form-control" />
+                                <span asp-validation-for="Nombre" class="text-danger"></span>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label asp-for="TipoDocumento" class="form-label"></label>
+                                <select asp-for="TipoDocumento" class="form-select" asp-items="@(new SelectList(Enum.GetNames(typeof(Persona.TipoId))))"></select>
+                                <span asp-validation-for="TipoDocumento" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="NumeroDocumento" class="form-label"></label>
+                                <input asp-for="NumeroDocumento" class="form-control" />
+                                <span asp-validation-for="NumeroDocumento" class="text-danger"></span>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label asp-for="Telefono" class="form-label"></label>
+                                <input asp-for="Telefono" class="form-control" />
+                                <span asp-validation-for="Telefono" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-check mt-4">
+                                    <input asp-for="EsExtranjero" class="form-check-input" />
+                                    <label asp-for="EsExtranjero" class="form-check-label"></label>
+                                    <span asp-validation-for="EsExtranjero" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <hr />
+                        <div class="mb-3">
+                            <label asp-for="CodigoFidelidad" class="form-label"></label>
+                            <div class="input-group">
+                                <span class="input-group-text">CLI</span>
+                                <input asp-for="CodigoFidelidad" class="form-control" placeholder="Ej: 001" />
+                            </div>
+                            <span asp-validation-for="CodigoFidelidad" class="text-danger"></span>
+                            <div class="form-text">El código de fidelidad debe ser único para cada cliente</div>
+                        </div>
+                        
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                            <a asp-action="Index" class="btn btn-secondary me-md-2">Cancelar</a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-save me-1"></i> Guardar Cliente
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card simpsons-bg-yellow">
+                <div class="card-body">
+                    <h5 class="card-title simpsons-text-blue">Beneficios del Programa de Fidelidad</h5>
+                    <ul class="list-group list-group-flush mb-3">
+                        <li class="list-group-item">Descuentos semanales en las tarifas</li>
+                        <li class="list-group-item">Prioridad en la asignación de habitaciones</li>
+                        <li class="list-group-item">Check-in anticipado y check-out tardío</li>
+                        <li class="list-group-item">Servicio VIP en el restaurante</li>
+                    </ul>
+                    <p class="mb-0">Todos los clientes registrados obtienen automáticamente un descuento variable que se actualiza semanalmente.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

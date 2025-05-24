@@ -1,0 +1,114 @@
+@model app.ViewModels.ReservaViewModel
+@{
+    ViewData["Title"] = "Reservar - Hotel Simpsons";
+}
+
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="card glassmorphism mb-4">
+            <div class="card-content">
+                <h4 class="card-title simpsons-text-blue">Formulario de Reserva</h4>
+                <form asp-action="Reservar" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <input type="hidden" asp-for="NumeroHabitacion" />
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="Nombre" class="control-label"></label>
+                                <input asp-for="Nombre" class="form-control" />
+                                <span asp-validation-for="Nombre" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="Telefono" class="control-label"></label>
+                                <input asp-for="Telefono" class="form-control" />
+                                <span asp-validation-for="Telefono" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label asp-for="TipoDocumento" class="control-label"></label>
+                                <select asp-for="TipoDocumento" class="form-select">
+                                    @foreach (var tipo in Enum.GetNames(typeof(SimpsonsHotel.Core.Classes.Persona.TipoId)))
+                                    {
+                                        <option value="@tipo">@tipo</option>
+                                    }
+                                </select>
+                                <span asp-validation-for="TipoDocumento" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label asp-for="NumeroDocumento" class="control-label"></label>
+                                <input asp-for="NumeroDocumento" class="form-control" />
+                                <span asp-validation-for="NumeroDocumento" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="FechaLlegada" class="control-label"></label>
+                                <input asp-for="FechaLlegada" class="form-control" type="date" value="@(Model?.FechaLlegada.ToString("yyyy-MM-dd"))" />
+                                <span asp-validation-for="FechaLlegada" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="FechaSalida" class="control-label"></label>
+                                <input asp-for="FechaSalida" class="form-control" type="date" value="@(Model?.FechaSalida.ToString("yyyy-MM-dd"))" />
+                                <span asp-validation-for="FechaSalida" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center" style="padding-top: 1rem;">
+                        <a asp-action="Index" class="btn btn-secondary">Volver</a>
+                        <button type="submit" class="btn btn-primary">Reservar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    
+    <script>
+        $(document).ready(function() {
+            // Ensure arrival date is not before today
+            var today = new Date();
+            var dd = String(today.getDate()).padStart(2, '0');
+            var mm = String(today.getMonth() + 1).padStart(2, '0');
+            var yyyy = today.getFullYear();
+            today = yyyy + '-' + mm + '-' + dd;
+            
+            $('#FechaLlegada').attr('min', today);
+            
+            // Update departure date based on arrival date
+            $('#FechaLlegada').change(function() {
+                var arrival = new Date($('#FechaLlegada').val());
+                arrival.setDate(arrival.getDate() + 1);
+                
+                var dd = String(arrival.getDate()).padStart(2, '0');
+                var mm = String(arrival.getMonth() + 1).padStart(2, '0');
+                var yyyy = arrival.getFullYear();
+                var minDeparture = yyyy + '-' + mm + '-' + dd;
+                
+                $('#FechaSalida').attr('min', minDeparture);
+                
+                if(new Date($('#FechaSalida').val()) <= new Date($('#FechaLlegada').val())) {
+                    $('#FechaSalida').val(minDeparture);
+                }
+            });
+        });
+    </script>
+}

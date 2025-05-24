@@ -1,0 +1,69 @@
+@model List<SimpsonsHotel.Core.Classes.Reserva>
+@using SimpsonsHotel.Core.Classes
+
+@{
+    ViewData["Title"] = "Reservas";
+    var relevantReservas = Model.Where(r => r.Estado == SimpsonsHotel.Core.Classes.Reserva.EstadoReserva.SinEmpezar || r.Estado == SimpsonsHotel.Core.Classes.Reserva.EstadoReserva.EnCurso)
+                                .OrderBy(r => r.FechaLlegada)
+                                .ToList();
+    
+    var todasLasReservasHistorial = Model.OrderByDescending(r => r.FechaLlegada).ToList();
+}
+
+<h2 class="mb-2">Gestión de reservas</h2>
+
+@if (TempData["Mensaje"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["Mensaje"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @TempData["Error"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+@await Component.InvokeAsync("ActiveReservationsCard", new { reservations = relevantReservas, title = "Reservas Activas y Próximas" })
+
+<div class="card mb-4">
+    <div class="card-content"> 
+        <h5 class="card-title">Historial</h5> 
+
+        @if (todasLasReservasHistorial.Any())
+        {
+            <ul class="list-group list-group-flush">
+                @foreach (var reserva in todasLasReservasHistorial)
+                {
+                    string estadoReserva = reserva.Estado.ToString();
+                    string badgeEstadoClass = estadoReserva == "SinEmpezar" ? "bg-info" : (estadoReserva == "EnCurso" ? "bg-warning text-dark" : (estadoReserva == "Finalizada" ? "bg-secondary" : "bg-danger"));
+
+                    <li class="list-group-item px-0 py-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="d-flex flex-grow-1 justify-content-between mb-2">
+                                <span><strong>Habitación:</strong> @(reserva.Habitacion != null ? reserva.Habitacion.Numero.ToString() : "N/A")</span>
+                                <span><strong>Cliente:</strong> @(reserva.Persona?.Nombre ?? "N/A")</span>
+                                <span><strong>Desde:</strong> @reserva.FechaLlegada.ToString("dd/MM/yyyy")</span>
+                                <span><strong>Hasta:</strong> @reserva.FechaSalida.ToString("dd/MM/yyyy")</span>
+                                <span><span class="badge @badgeEstadoClass">@estadoReserva</span></span>
+                            </div>
+                            <div class="ml-2">
+                                <a asp-action="Detalles" asp-route-id="@reserva.Id" class="btn btn-secondary">Detalles</a>
+                            </div>
+                        </div>
+                    </li>
+                }
+            </ul>
+        }
+        else
+        {
+            <div class="alert alert-info text-center">
+                No hay reservas en el historial.
+            </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,50 @@
+@using SimpsonsHotel.Core.Classes
+@model Reserva
+
+@{
+    ViewData["Title"] = "Cancelar Reserva";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<h3>
+    ¿Está seguro que desea cancelar esta reserva?
+</h3>
+<div>
+    <h4>Detalles de la Reserva</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Número de Habitación
+        </dt>
+        <dd class="col-sm-10">
+            @(Model?.Habitacion != null ? Model.Habitacion.Numero.ToString() : "Información no disponible")
+        </dd>
+        <dt class="col-sm-2">
+            Nombre del Cliente
+        </dt>
+        <dd class="col-sm-10">
+            @(Model?.Persona?.Nombre ?? "Información no disponible")
+        </dd>
+        <dt class="col-sm-2">
+            Fecha de Llegada
+        </dt>
+        <dd class="col-sm-10">
+            @(Model?.FechaLlegada.ToShortDateString() ?? "Información no disponible")
+        </dd>
+        <dt class="col-sm-2">
+            Fecha de Salida
+        </dt>
+        <dd class="col-sm-10">
+            @(Model?.FechaSalida.ToShortDateString() ?? "Información no disponible")
+        </dd>
+    </dl>
+    
+    <form asp-action="Cancelar">
+        <input type="hidden" asp-for="Id" />
+        <div class="form-group mt-3 gap-3">
+            <input type="submit" value="Confirmar Cancelación" class="btn btn-danger" />
+            <a asp-action="Index" class="btn btn-secondary">Volver a la Lista</a>
+        </div>
+    </form>
+</div>

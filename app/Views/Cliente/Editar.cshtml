@@ -1,0 +1,120 @@
+@using SimpsonsHotel.Core.Classes
+@model SimpsonsHotel.Core.Classes.Cliente
+@{
+    ViewData["Title"] = "Editar Cliente";
+}
+
+<div class="container">
+    <div class="row mb-4">
+        <div class="col">
+            <h1 class="simpsons-text-blue">Editar Cliente</h1>
+            <p class="lead">Modifica la información del cliente</p>
+        </div>
+        <div class="col-auto">
+            <a asp-action="Index" class="btn btn-secondary">
+                <i class="bi bi-arrow-left me-2"></i> Volver
+            </a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header simpsons-bg-yellow">
+                    <h4 class="card-title simpsons-text-blue mb-0">
+                        <i class="bi bi-pencil-square me-2"></i> Información del Cliente
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Editar" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-12">
+                                <label asp-for="Nombre" class="form-label"></label>
+                                <input asp-for="Nombre" class="form-control" />
+                                <span asp-validation-for="Nombre" class="text-danger"></span>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label asp-for="TipoDocumento" class="form-label"></label>
+                                <select asp-for="TipoDocumento" class="form-select" asp-items="@(new SelectList(Enum.GetNames(typeof(Persona.TipoId))))"></select>
+                                <span asp-validation-for="TipoDocumento" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="NumeroDocumento" class="form-label"></label>
+                                <input asp-for="NumeroDocumento" class="form-control" readonly />
+                                <span asp-validation-for="NumeroDocumento" class="text-danger"></span>
+                                <small class="form-text text-muted">El número de documento no se puede modificar</small>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label asp-for="Telefono" class="form-label"></label>
+                                <input asp-for="Telefono" class="form-control" />
+                                <span asp-validation-for="Telefono" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-check mt-4">
+                                    <input asp-for="EsExtranjero" class="form-check-input" />
+                                    <label asp-for="EsExtranjero" class="form-check-label"></label>
+                                    <span asp-validation-for="EsExtranjero" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <hr />
+                        <div class="mb-3">
+                            <label asp-for="CodigoFidelidad" class="form-label"></label>
+                            <div class="input-group">
+                                <span class="input-group-text">CLI</span>
+                                <input asp-for="CodigoFidelidad" class="form-control" />
+                            </div>
+                            <span asp-validation-for="CodigoFidelidad" class="text-danger"></span>
+                        </div>
+                        
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                            <a asp-action="Index" class="btn btn-secondary me-md-2">Cancelar</a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-save me-1"></i> Actualizar Cliente
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-header simpsons-bg-yellow">
+                    <h4 class="card-title simpsons-text-blue mb-0">Acciones Adicionales</h4>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <a asp-action="Detalles" asp-route-id="@Model.NumeroDocumento" class="btn btn-secondary">
+                            <i class="bi bi-eye me-2"></i> Ver Detalles
+                        </a>
+                        <a asp-action="Eliminar" asp-route-id="@Model.NumeroDocumento" class="btn btn-danger">
+                            <i class="bi bi-trash me-2"></i> Eliminar Cliente
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card simpsons-bg-yellow">
+                <div class="card-body">
+                    <h5 class="card-title simpsons-text-blue">¿Necesitas ayuda?</h5>
+                    <p>Contacta con administración:</p>
+                    <p class="simpsons-text-blue"><strong>☎ 555-SIMPSON</strong></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

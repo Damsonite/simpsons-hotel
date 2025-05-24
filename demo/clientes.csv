@@ -1,0 +1,5 @@
+Nombre,TipoDocumento,NumeroDocumento,Telefono,CodigoFidelidad
+Homer Simpson,CC,1234567890,555-0001,CLI1001
+Marge Simpson,CC,2345678901,555-0002,CLI1002
+Bart Simpson,TI,3456789012,555-0003,CLI1003
+Lisa Simpson,TI,4567890123,555-0004,CLI1004 

@@ -1,0 +1,95 @@
+@model app.ViewComponents.LavanderiaServiceViewModel
+@using app.Utils
+
+<div class="card glass-effect mb-4">
+    <div class="card-content">
+        <h5 class="card-title">
+            Servicio de Lavandería
+        </h5>
+
+        <form asp-controller="Servicios" asp-action="UsarLavanderia" method="post">
+            <input type="hidden" name="numeroHabitacion" value="@Model.Habitacion.Numero" />
+            
+            <div class="mb-3">
+                <label for="tipoServicio" class="form-label">Tipo de Servicio</label>
+                <select class="form-select" id="tipoServicio" name="tipoServicio">
+                    @foreach (var tipo in Model.TiposServicio)
+                    {
+                        <option value="@tipo">@tipo.ToString().Replace("YPlanchado", " y Planchado")</option>
+                    }
+                </select>
+            </div>
+            
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label for="cantidadLavado" class="form-label">Para lavar</label>
+                    <div class="input-group">
+                        <input type="number" class="form-control" id="cantidadLavado" name="cantidadLavado" min="0" value="0">
+                        <span class="input-group-text">@Formatter.FormatPrice(Model.PrecioLavado)</span>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <label for="cantidadPlanchado" class="form-label">Para planchar</label>
+                    <div class="input-group">
+                        <input type="number" class="form-control" id="cantidadPlanchado" name="cantidadPlanchado" min="0" value="0">
+                        <span class="input-group-text">@Formatter.FormatPrice(Model.PrecioPlanchado)</span>
+                    </div>
+                </div>
+            </div>
+                
+            <button type="submit" class="btn btn-primary mt-3">
+                Solicitar
+            </button>
+        </form>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const tipoServicio = document.getElementById('tipoServicio');
+    const cantidadLavado = document.getElementById('cantidadLavado');
+    const cantidadPlanchado = document.getElementById('cantidadPlanchado');
+    const totalEstimado = document.getElementById('totalEstimado');
+    const precioLavado = @Model.PrecioLavado;
+    const precioPlanchado = @Model.PrecioPlanchado;
+    
+    function actualizarTotal() {
+        const lavado = parseInt(cantidadLavado.value) || 0;
+        const planchado = parseInt(cantidadPlanchado.value) || 0;
+        const total = (lavado * precioLavado) + (planchado * precioPlanchado);
+        totalEstimado.textContent = new Intl.NumberFormat('es-CO', {
+            style: 'currency',
+            currency: 'COP',
+            minimumFractionDigits: 0
+        }).format(total);
+    }
+    
+    function actualizarCamposPorTipo() {
+        const tipo = tipoServicio.value;
+        switch(tipo) {
+            case 'Lavado':
+                cantidadPlanchado.value = '0';
+                cantidadPlanchado.disabled = true;
+                cantidadLavado.disabled = false;
+                break;
+            case 'Planchado':
+                cantidadLavado.value = '0';
+                cantidadLavado.disabled = true;
+                cantidadPlanchado.disabled = false;
+                break;
+            case 'LavadoYPlanchado':
+                cantidadLavado.disabled = false;
+                cantidadPlanchado.disabled = false;
+                break;
+        }
+        actualizarTotal();
+    }
+
+    tipoServicio.addEventListener('change', actualizarCamposPorTipo);
+    cantidadLavado.addEventListener('input', actualizarTotal);
+    cantidadPlanchado.addEventListener('input', actualizarTotal);
+    
+    actualizarCamposPorTipo();
+});
+</script>

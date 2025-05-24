@@ -1,0 +1,45 @@
+@model List<SimpsonsHotel.Core.Classes.Reserva>
+
+<div class="card mb-4">
+    <div class="card-content">
+        <h5 class="card-title">Próximas Reservas</h5>
+        @if (Model != null && Model.Any())
+        {
+            <ul class="list-group list-group-flush">
+                @foreach (var reserva in Model)
+                {
+                    string estadoReserva = reserva.Estado.ToString();
+                    string badgeEstadoClass = estadoReserva == "SinEmpezar" ? "bg-info" : (estadoReserva == "EnCurso" ? "bg-warning text-dark" : "bg-secondary");
+
+                    <li class="list-group-item px-0 py-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="d-flex flex-grow-1 justify-content-between mr-2">
+                                <span><strong>Habitación:</strong> @(reserva.Habitacion != null ? reserva.Habitacion.Numero.ToString() : "N/A")</span>
+                                <span><strong>Huesped:</strong> @(reserva.Persona?.Nombre ?? "N/A")</span>
+                                <span><strong>Desde:</strong> @reserva.FechaLlegada.ToString("dd/MM/yyyy")</span>
+                                <span><strong>Hasta:</strong> @reserva.FechaSalida.ToString("dd/MM/yyyy")</span>
+                                <span><span class="badge @badgeEstadoClass">@estadoReserva</span></span>
+                            </div>
+                            <div>
+                                @if (ViewData["ShowLinks"] as bool? ?? true)
+                                {
+                                    @if (estadoReserva == "SinEmpezar")
+                                    {
+                                        <a asp-action="CheckIn" asp-route-id="@reserva.Id" class="btn btn-confirm">Check-in</a>
+                                    }
+                                    <a asp-action="Cancelar" asp-route-id="@reserva.Id" class="btn btn-danger">Cancelar</a>
+                                }
+                            </div>
+                        </div>
+                    </li>
+                }
+            </ul>
+        }
+        else
+        {
+            <div class="alert alert-info text-center">
+                No hay próximas reservas disponibles.
+            </div>
+        }
+    </div>
+</div>

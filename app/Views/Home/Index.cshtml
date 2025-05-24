@@ -1,0 +1,40 @@
+﻿@model Hotel
+@using SimpsonsHotel.Core.Classes
+
+@{
+    ViewData["Title"] = "Inicio";
+    var relevantReservas = Model.Reservas
+                                .Where(r => r.Estado == SimpsonsHotel.Core.Classes.Reserva.EstadoReserva.SinEmpezar || r.Estado == SimpsonsHotel.Core.Classes.Reserva.EstadoReserva.EnCurso)
+                                .OrderBy(r => r.FechaLlegada)
+                                .ToList();
+}
+
+<h1>Dashboard</h2>
+
+<div class="row my-4">
+    <div class="col-12">
+        @await Component.InvokeAsync("ActiveReservationsCard", 
+            new { reservations = relevantReservas, title = "Reservas Activas y Próximas", ShowLinks = false })
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4 mb-4">
+        @await Component.InvokeAsync("RoomTypeCard", new { rooms = Model.HabitacionesSencillas })
+    </div>
+    <div class="col-md-4 mb-4">
+        @await Component.InvokeAsync("RoomTypeCard", new { rooms = Model.HabitacionesEjecutivas })
+    </div>
+    <div class="col-md-4 mb-4">
+        @await Component.InvokeAsync("RoomTypeCard", new { rooms = Model.HabitacionesSuites })
+    </div>
+</div>
+
+<div class="row mt-4 mb-5">
+    <div class="col-md-6">
+        @await Component.InvokeAsync("CheckInCard")
+    </div>
+    <div class="col-md-6">
+        @await Component.InvokeAsync("CheckOutCard")
+    </div>
+</div>

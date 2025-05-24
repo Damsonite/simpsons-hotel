@@ -1,0 +1,46 @@
+@model app.ViewComponents.RoomDetailCardViewComponent.RoomDetailCardViewModel
+@using app.Utils 
+@using SimpsonsHotel.Core.Classes
+
+<div class="card glassmorphism mb-4">
+    <div class="card-content">
+        <h3 class="card-title">Habitación @Model?.HabitacionModel?.Numero</h3>
+        <div class="row">
+            <div class="col-md-6">
+                <h4>Características principales</h4>
+                <ul class="list-group list-group-flush mb-3">
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Tipo:</span>
+                        <strong>@Model?.TipoHabitacion</strong>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Piso:</span>
+                        <strong>@Model?.HabitacionModel?.Piso</strong>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Precio por noche:</span>
+                        <strong>@(Formatter.FormatPrice(Model?.HabitacionModel?.CostoPorNoche ?? 0))</strong>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Estado:</span>
+                        <strong class="@(Model?.HabitacionModel?.Ocupada == true ? "text-danger" : "text-success")">
+                            @(Model?.HabitacionModel?.Ocupada == true ? "Ocupada" : "Disponible")
+                        </strong>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <h4>Características específicas</h4>
+                <ul class="list-group list-group-flush">
+                    @foreach (var kvp in Model?.CaracteristicasEspecificas ?? Enumerable.Empty<KeyValuePair<string, string>>())
+                    {
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span>@kvp.Key</span>
+                            <strong>@kvp.Value</strong>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

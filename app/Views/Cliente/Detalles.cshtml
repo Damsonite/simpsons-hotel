@@ -1,0 +1,140 @@
+@model SimpsonsHotel.Core.Classes.Cliente
+@{
+    ViewData["Title"] = "Detalles del Cliente";
+}
+
+<div class="container">
+    <div class="row mb-4">
+        <div class="col">
+            <h1 class="simpsons-text-blue">Detalles del Cliente</h1>
+            <p class="lead">Información del cliente @Model.Nombre</p>
+        </div>
+        <div class="col-auto">
+            <a asp-action="Index" class="btn btn-secondary">
+                <i class="bi bi-arrow-left me-2"></i> Volver
+            </a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card mb-4">
+                <div class="card-header simpsons-bg-yellow">
+                    <h4 class="card-title simpsons-text-blue mb-0">
+                        <i class="bi bi-person-badge me-2"></i> Información Personal
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="fw-bold">Nombre:</label>
+                                <div>@Model.Nombre</div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="fw-bold">Tipo de Documento:</label>
+                                <div><span class="badge bg-secondary">@Model.TipoDocumento</span></div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="fw-bold">Número de Documento:</label>
+                                <div>@Model.NumeroDocumento</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="fw-bold">Teléfono:</label>
+                                <div>@Model.Telefono</div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="fw-bold">Es extranjero:</label>
+                                <div>
+                                    @if (Model.EsExtranjero)
+                                    {
+                                        <span class="badge bg-success">Sí</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary">No</span>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header simpsons-bg-yellow">
+                    <h4 class="card-title simpsons-text-blue mb-0">
+                        <i class="bi bi-star me-2"></i> Programa de Fidelidad
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="fw-bold">Código de Fidelidad:</label>
+                                <div>@Model.CodigoFidelidad</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="fw-bold">Porcentaje de Descuento:</label>
+                                <div class="display-4 text-success">@(Model.PorcentajeDescuento * 100)%</div>
+                                <small class="text-muted">El descuento varía semanalmente</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-header simpsons-bg-yellow">
+                    <h4 class="card-title simpsons-text-blue mb-0">Acciones</h4>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <a asp-action="Editar" asp-route-id="@Model.NumeroDocumento" class="btn btn-primary">
+                            <i class="bi bi-pencil-square me-2"></i> Editar Cliente
+                        </a>
+                        <a asp-action="Eliminar" asp-route-id="@Model.NumeroDocumento" class="btn btn-danger">
+                            <i class="bi bi-trash me-2"></i> Eliminar Cliente
+                        </a>
+                        <a asp-action="Historial" asp-route-id="@Model.NumeroDocumento" class="btn btn-primary">
+                            <i class="bi bi-card-list me-2"></i> Ver Historial de Reservas
+                        </a>
+                        <a asp-controller="Habitacion" asp-action="Index" class="btn btn-confirm">
+                            <i class="bi bi-calendar-plus me-2"></i> Crear Nueva Reserva
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card simpsons-bg-yellow">
+                <div class="card-body">
+                    <h5 class="card-title simpsons-text-blue">¿Necesitas ayuda?</h5>
+                    <p>Contacta con administración:</p>
+                    <p class="simpsons-text-blue"><strong>☎ 555-SIMPSON</strong></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h2>Detalles del Cliente</h2>
+
+    <div class="card">
+        <div class="card-header">
+            <h4>Información del Cliente</h4>
+        </div>
+        <div class="card-body">
+            <p><strong>Nombre:</strong> @Model.Nombre</p>
+            <p><strong>Documento:</strong> @Model.TipoDocumento.ToString() @Model.NumeroDocumento</p>
+            <p><strong>Teléfono:</strong> @Model.Telefono</p>
+            <p><strong>Reservas Activas:</strong> @Model.ContarReservasActivas()</p>
+        </div>
+    </div>
+
+    <a asp-action="Index" asp-controller="Reserva" class="btn btn-primary">Volver a Reservas</a>
+</div>

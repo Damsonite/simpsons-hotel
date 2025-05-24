@@ -1,0 +1,124 @@
+@model app.ViewComponents.FacturaViewModel
+@using app.Utils
+
+<div class="card glass-effect mb-4">
+    <div class="card-content">
+        <h5 class="card-title">
+            Factura
+        </h5>
+
+        @if (Model.FechaLlegada.HasValue && Model.FechaSalida.HasValue && !string.IsNullOrEmpty(Model.NombreHuesped))
+        {
+            <div class="mb-3">
+                <h6>Reserva</h6>
+                <p class="mb-1"><strong>Huésped:</strong> @Model.NombreHuesped</p>
+                <p class="mb-1"><strong>Check-in:</strong> @Model.FechaLlegada.Value.ToString("dd/MM/yyyy")</p>
+                <p class="mb-1"><strong>Check-out:</strong> @Model.FechaSalida.Value.ToString("dd/MM/yyyy")</p>
+                <p class="mb-1"><strong>Noches:</strong> @((Model.FechaSalida.Value - Model.FechaLlegada.Value).Days)</p>
+            </div>
+        }
+
+        @if (Model.Consumo != null)
+        {
+            <div class="consumption-details">
+                <h6>Detalles</h6>
+            
+                <div class="d-flex justify-content-between mb-2">
+                    <span>Habitación (@Model.Habitacion.GetType().Name)</span>
+                    <span>@Formatter.FormatPrice(Model.Habitacion.CostoPorNoche)/noche</span>
+                </div>
+                
+                <!-- Servicios de restaurante -->
+                @if (Model.Consumo.ProductosRestaurante?.Any() == true)
+                {
+                    <div class="mb-2">
+                        <small class="text-muted fw-bold">Restaurante:</small>
+                        @foreach (var producto in Model.Consumo.ProductosRestaurante)
+                        {
+                            <div class="d-flex justify-content-between">
+                                <small>- @producto.Nombre</small>
+                                <small>@Formatter.FormatPrice(producto.Precio)</small>
+                            </div>
+                        }
+                        <div class="d-flex justify-content-between">
+                            <small>- Cargo servicio habitación</small>
+                            <small>@Formatter.FormatPrice(SimpsonsHotel.Core.Classes.ProductoRestaurante.CargoServicioHabitacion)</small>
+                        </div>
+                    </div>
+                }
+                
+                @if (Model.Consumo.ServiciosLavanderia?.Any() == true)
+                {
+                    <div class="mb-2">
+                        <small class="text-muted fw-bold">Lavandería:</small>
+                        @foreach (var servicio in Model.Consumo.ServiciosLavanderia)
+                        {
+                            @if (servicio.CantidadLavado > 0)
+                            {
+                                <div class="d-flex justify-content-between">
+                                    <small>- Lavado (@servicio.CantidadLavado prendas)</small>
+                                    <small>@Formatter.FormatPrice(servicio.CantidadLavado * SimpsonsHotel.Core.Classes.Lavanderia.PrecioLavadoPorPrenda)</small>
+                                </div>
+                            }
+                            @if (servicio.CantidadPlanchado > 0)
+                            {
+                                <div class="d-flex justify-content-between">
+                                    <small>- Planchado (@servicio.CantidadPlanchado prendas)</small>
+                                    <small>@Formatter.FormatPrice(servicio.CantidadPlanchado * SimpsonsHotel.Core.Classes.Lavanderia.PrecioPlanchado)</small>
+                                </div>
+                            }
+                        }
+                    </div>
+                }
+                
+                @if (Model.Consumo.ProductosMinibar?.Any() == true)
+                {
+                    <div class="mb-2">
+                        <small class="text-muted fw-bold">Minibar:</small>
+                        @foreach (var producto in Model.Consumo.ProductosMinibar)
+                        {
+                            <div class="d-flex justify-content-between">
+                                <small>- @producto.Nombre</small>
+                                <small>@Formatter.FormatPrice(producto.Precio)</small>
+                            </div>
+                        }
+                    </div>
+                }
+
+                <hr>
+                <div class="d-flex justify-content-between fw-bold">
+                    <span>Total Consumos:</span>
+                    <span>@Formatter.FormatPrice(Model.Consumo.CalcularTotal())</span>
+                </div>
+                
+                @if (Model.FechaLlegada.HasValue && Model.FechaSalida.HasValue)
+                {
+                    var noches = (Model.FechaSalida.Value - Model.FechaLlegada.Value).Days;
+                    var totalHabitacion = Model.Habitacion.CostoPorNoche * noches;
+                    var seguro = totalHabitacion * 0.025m; // 2.5% del costo de la habitación
+                    var subtotal = totalHabitacion + seguro + Model.Consumo.CalcularTotal();
+                    var totalGeneral = subtotal; // No IVA for guests without Persona
+                    
+                    <div class="d-flex justify-content-between fw-bold">
+                        <span>Total Habitación (@noches noches):</span>
+                        <span>@Formatter.FormatPrice(totalHabitacion)</span>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <span>Seguro hotelero (2.5%):</span>
+                        <span>@Formatter.FormatPrice(seguro)</span>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between fw-bold text-primary fs-5 mt-2">
+                        <span>TOTAL:</span>
+                        <span class="text-primary">@Formatter.FormatPrice(totalGeneral)</span>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <p class="text-muted">No hay consumos registrados</p>
+        }
+    </div>
+</div>

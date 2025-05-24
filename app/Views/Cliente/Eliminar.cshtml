@@ -1,0 +1,100 @@
+@model SimpsonsHotel.Core.Classes.Cliente
+@{
+    ViewData["Title"] = "Eliminar Cliente";
+}
+
+<div class="container">
+    <div class="row mb-4">
+        <div class="col">
+            <h1 class="simpsons-text-blue">Eliminar Cliente</h1>
+            <p class="lead">¿Estás seguro de que deseas eliminar este cliente?</p>
+        </div>
+        <div class="col-auto">
+            <a asp-action="Index" class="btn btn-secondary">
+                <i class="bi bi-arrow-left me-2"></i> Volver
+            </a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card mb-4">
+                <div class="card-header simpsons-bg-yellow">
+                    <h4 class="card-title simpsons-text-blue mb-0">
+                        <i class="bi bi-exclamation-triangle me-2"></i> Confirmación
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-danger">
+                        <p><strong>Advertencia:</strong> Esta acción no se puede deshacer. Se eliminará permanentemente el cliente del sistema.</p>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="fw-bold">Nombre:</label>
+                                <div>@Model.Nombre</div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="fw-bold">Tipo de Documento:</label>
+                                <div><span class="badge bg-secondary">@Model.TipoDocumento</span></div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="fw-bold">Número de Documento:</label>
+                                <div>@Model.NumeroDocumento</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="fw-bold">Teléfono:</label>
+                                <div>@Model.Telefono</div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="fw-bold">Es extranjero:</label>
+                                <div>
+                                    @if (Model.EsExtranjero)
+                                    {
+                                        <span class="badge bg-success">Sí</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary">No</span>
+                                    }
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="fw-bold">Código de Fidelidad:</label>
+                                <div>@Model.CodigoFidelidad</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <form asp-action="Eliminar" method="post">
+                        <input type="hidden" name="id" value="@Model.NumeroDocumento" />
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                            <a asp-action="Index" class="btn btn-secondary me-md-2">Cancelar</a>
+                            <button type="submit" class="btn btn-danger">
+                                <i class="bi bi-trash me-1"></i> Eliminar Cliente
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card simpsons-bg-yellow">
+                <div class="card-body">
+                    <h5 class="card-title simpsons-text-blue">Consideraciones</h5>
+                    <p>Al eliminar un cliente, se perderá:</p>
+                    <ul>
+                        <li>Historial de estadías</li>
+                        <li>Preferencias de habitación</li>
+                        <li>Beneficios del programa de fidelidad</li>
+                    </ul>
+                    <p class="mb-0">Si el cliente tiene reservas activas, considera cancelarlas antes de eliminar el cliente.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

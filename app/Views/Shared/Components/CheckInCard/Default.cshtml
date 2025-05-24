@@ -1,0 +1,20 @@
+<div class="card mb-4">
+    <div class="card-content">
+        <h5 class="card-title">Check-in</h5>
+
+        <p>Realiza el check-in de un cliente con reserva:</p>
+        <ol>
+            <li>Busca la reserva en la tabla de Reservas Activas y Próximas</li>
+            <li>Haz clic en el botón "Check-in"</li>
+            <li>Confirma los datos del huésped</li>
+        </ol>
+        <hr class="border-secondary" />
+        <form asp-controller="Habitacion" asp-action="AsignarHabitacionSinReserva" method="post">
+            <div class="mb-3">
+                <label for="codigoCliente" class="form-label">Código de Cliente Especial</label>
+                <input type="text" class="form-control" id="codigoCliente" name="codigoCliente" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Ver habitaciones disponibles</button>
+        </form>
+    </div>
+</div>

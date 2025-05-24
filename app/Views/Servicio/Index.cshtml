@@ -1,0 +1,90 @@
+@{
+    ViewData["Title"] = "Servicios del Hotel";
+}
+
+<div class="container">
+    <div class="row mb-4">
+        <div class="col">
+            <h1 class="simpsons-text-blue">Servicios del Hotel</h1>
+            <p class="lead">Descubre los servicios exclusivos que ofrecemos en el Hotel Simpsons</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <img src="https://cdn.pixabay.com/photo/2015/09/02/12/25/restaurant-918744_1280.jpg" class="card-img-top" alt="Restaurante">
+                <div class="card-body">
+                    <h5 class="card-title simpsons-text-blue">Restaurante</h5>
+                    <p class="card-text">Disfruta de nuestra deliciosa gastronomía con platos inspirados en Springfield. Desde la cerveza Duff hasta las donas de Homer.</p>
+                    <ul class="list-group list-group-flush mb-3">
+                        <li class="list-group-item">Desayuno buffet</li>
+                        <li class="list-group-item">Almuerzo y cena a la carta</li>
+                        <li class="list-group-item">Room service 24/7</li>
+                    </ul>
+                    <a asp-action="Restaurante" class="btn btn-primary">Ver Menú</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <img src="https://cdn.pixabay.com/photo/2014/10/02/03/57/mini-bar-469419_1280.jpg" class="card-img-top" alt="Minibar">
+                <div class="card-body">
+                    <h5 class="card-title simpsons-text-blue">Minibar</h5>
+                    <p class="card-text">Cada habitación cuenta con un completo minibar adaptado a su categoría. Desde refrescos hasta licores premium.</p>
+                    <ul class="list-group list-group-flush mb-3">
+                        <li class="list-group-item">Refrescos y aguas</li>
+                        <li class="list-group-item">Licores seleccionados</li>
+                        <li class="list-group-item">Snacks variados</li>
+                    </ul>
+                    <a asp-action="Minibar" class="btn btn-primary">Ver Productos</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <img src="https://cdn.pixabay.com/photo/2019/08/15/17/57/laundry-4408598_1280.jpg" class="card-img-top" alt="Lavandería">
+                <div class="card-body">
+                    <h5 class="card-title simpsons-text-blue">Lavandería</h5>
+                    <p class="card-text">Servicio de lavandería profesional para que puedas disfrutar de tu estadía sin preocupaciones.</p>
+                    <ul class="list-group list-group-flush mb-3">
+                        <li class="list-group-item">Servicio express en 3 horas</li>
+                        <li class="list-group-item">Lavado y planchado</li>
+                        <li class="list-group-item">Limpieza en seco</li>
+                    </ul>
+                    <a asp-action="Lavanderia" class="btn btn-primary">Ver Tarifas</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <div class="card simpsons-bg-yellow">
+                <div class="card-body">
+                    <h4 class="card-title simpsons-text-blue">Servicios Adicionales</h4>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <h5><i class="bi bi-wifi me-2"></i> WiFi Gratuito</h5>
+                                <p>Conexión de alta velocidad en todas las habitaciones y áreas comunes.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <h5><i class="bi bi-p-circle me-2"></i> Estacionamiento</h5>
+                                <p>Estacionamiento gratuito para huéspedes y visitantes del restaurante.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <h5><i class="bi bi-shield-check me-2"></i> Seguridad 24/7</h5>
+                                <p>Personal de seguridad y cámaras de vigilancia las 24 horas.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

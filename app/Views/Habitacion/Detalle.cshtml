@@ -1,0 +1,42 @@
+@model SimpsonsHotel.Core.Classes.Habitacion
+@using System.Globalization 
+@using SimpsonsHotel.Core.Classes 
+@using System.Collections.Generic
+
+@{
+    ViewData["Title"] = "Detalles de Habitación - Simpsons Hotel";
+    var reservaActual = ViewBag.ReservaActual as Reserva;
+}
+
+<div class="row">
+    <div class="col-md-8">
+        @await Component.InvokeAsync("RoomDetailCard", new { habitacion = Model })
+        
+        @if (Model.Ocupada && reservaActual != null)
+        {
+            <div class="row">
+                <div class="col-md-6">
+                    @await Component.InvokeAsync("LavanderiaServiceCard", new { habitacion = Model })
+                </div>
+                <div class="col-md-6">
+                    @await Component.InvokeAsync("RestauranteServiceCard", new { habitacion = Model })
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="col-md-4">
+        @await Component.InvokeAsync("RoomServicesCard", new { habitacion = Model })
+        
+        @if (Model.Ocupada && reservaActual != null)
+        {
+            @await Component.InvokeAsync("FacturaCard", new { 
+                habitacion = Model, 
+                fechaLlegada = reservaActual.FechaLlegada, 
+                fechaSalida = reservaActual.FechaSalida, 
+                nombreHuesped = reservaActual.Persona?.Nombre ?? "N/A",
+                cargoServicioHabitacion = ProductoRestaurante.CargoServicioHabitacion
+            })
+        }
+    </div>
+</div>

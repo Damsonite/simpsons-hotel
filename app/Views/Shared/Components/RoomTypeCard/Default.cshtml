@@ -1,0 +1,23 @@
+@model app.ViewComponents.RoomTypeCardViewModel
+
+<div class="card room-type-card glassmorphism h-100">
+    <div class="card-content d-flex flex-column h-100">
+        <h4 class="card-title">@Model.Title</h4>
+        @if (Model.Features.Any())
+        {
+            <h6 class="card-features-title">Características</h6>
+            <ul class="card-features-list">
+                @foreach (var feature in Model.Features)
+                {
+                    <li>@feature</li>
+                }
+            </ul>
+        }
+        <div class="mt-auto">
+            <div class="d-flex justify-content-between align-items-center">
+                <p class="card-availability mb-0">Disponibles: @Model.AvailableCount</p>
+                <a href='@Url.Action("Index", "Habitacion", new { tipo = Model.RoomType })' class="btn btn-primary btn-sm">Ver detalles</a>
+            </div>
+        </div>
+    </div>
+</div>

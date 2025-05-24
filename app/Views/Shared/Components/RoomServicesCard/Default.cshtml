@@ -1,0 +1,39 @@
+@model app.ViewComponents.RoomServicesCardViewComponent.RoomServicesCardViewModel
+@using SimpsonsHotel.Core.Classes
+
+<div class="card mb-4">
+    <div class="card-content">
+        <h4 class="card-title text-dark mb-0">Servicios incluidos</h4>
+        <ul class="list-group list-group-flush">
+            @if (Model.HabitacionModel is SimpsonsHotel.Core.Classes.Suite suite)
+            {
+                <li class="list-group-item pt-2 pb-1">
+                    Minibar Premium (Suite):
+                    <ul class="mt-1" style="list-style-type: disc; padding-left: 20px; margin-bottom: 0;">
+                        <li><small>Botella de Vino</small></li>
+                        <li><small>4 Botellas de Licor</small></li>
+                        <li><small>3 Kits de Aseo Personal</small></li>
+                        <li><small>4 Gaseosas</small></li>
+                    </ul>
+                </li>
+                <li class="list-group-item">Batas de baño: @suite.CantidadBatas (Incluidas)</li>
+            }
+            else if (Model.HabitacionModel is SimpsonsHotel.Core.Classes.Ejecutiva)
+            {
+                <li class="list-group-item pt-2 pb-1">
+                    Minibar (Ejecutiva):
+                    <ul class="mt-1" style="list-style-type: disc; padding-left: 20px; margin-bottom: 0;">
+                        <li><small>4 Botellas de Licor</small></li>
+                        <li><small>2 Botellas de Agua</small></li>
+                        <li><small>1 Kit de Aseo Personal</small></li>
+                        <li><small>2 Gaseosas</small></li>
+                    </ul>
+                </li>
+            }
+            else // For Sencilla or other types if any, show no specific included services from this list
+            {
+                <li class="list-group-item">No hay servicios premium incluidos.</li>
+            }
+        </ul>
+    </div>
+</div>

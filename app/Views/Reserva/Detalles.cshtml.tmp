@@ -1,0 +1,131 @@
+@model SimpsonsHotel.Core.Classes.Reserva
+@{
+    ViewData["Title"] = "Detalles de Reserva - Simpsons Hotel";
+    string tipoHabitacion = Model.Habitacion is SimpsonsHotel.Core.Classes.Sencilla ? "Sencilla" : 
+                           (Model.Habitacion is SimpsonsHotel.Core.Classes.Ejecutiva ? "Ejecutiva" : "Suite");
+    string headerClass = tipoHabitacion == "Sencilla" ? "bg-primary" : 
+                        (tipoHabitacion == "Ejecutiva" ? "bg-success" : "bg-danger");
+}
+
+@if (TempData["Mensaje"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["Mensaje"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card mb-4">
+            <div class="card-content">
+                <h2 class="card-title">Detalles de la Reserva</h2>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5>Reserva</h5>
+                        <ul class="list-group list-group-flush mb-3">
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span>ID</span>
+                                <strong>@Model.Id.ToString().Substring(0, 8)</strong>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span>Estado:</span>
+                                <strong class="@(Model.Estado == SimpsonsHotel.Core.Classes.Reserva.EstadoReserva.Cancelada ? "text-danger" : (Model.Estado == SimpsonsHotel.Core.Classes.Reserva.EstadoReserva.EnCurso ? "text-warning" : "text-success"))">
+                                    @Model.Estado
+                                </strong>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span>Llegada:</span>
+                                <strong>@Model.FechaLlegada.ToString("dd/MM/yyyy")</strong>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span>Salida:</span>
+                                <strong>@Model.FechaSalida.ToString("dd/MM/yyyy")</strong>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span>Duración:</span>
+                                <strong>@(Model.DiasReserva) @(Model.DiasReserva == 1 ? "día" : "días")</strong>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h5>Cliente</h5>
+                        <ul class="list-group list-group-flush mb-3">
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span>Nombre:</span>
+                                <strong>@(Model.Persona?.Nombre ?? "N/A")</strong>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span>Documento:</span>
+                                <strong>@(Model.Persona != null ? (Model.Persona.TipoDocumento.ToString() + ". " + Model.Persona.NumeroDocumento) : "N/A")</strong>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span>Teléfono:</span>
+                                <strong>@(Model.Persona?.Telefono ?? "N/A")</strong>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span>Extranjero:</span>
+                                <strong>@(Model.Persona?.EsExtranjero == true ? "Sí" : "No")</strong>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer d-flex justify-content-between">
+                <a asp-action="Index" class="btn btn-secondary">Volver</a>
+                <div>
+                    @if (Model.Estado == SimpsonsHotel.Core.Classes.Reserva.EstadoReserva.SinEmpezar)
+                    {
+                        <a asp-action="CheckIn" asp-route-id="@Model.Id" class="btn btn-confirm">Check-in</a>
+                        <a asp-action="Cancelar" asp-route-id="@Model.Id" class="btn btn-danger">Cancelar</a>
+                    }
+                    @if (Model.Estado == SimpsonsHotel.Core.Classes.Reserva.EstadoReserva.EnCurso)
+                    {
+                        <a asp-action="ConfirmarCheckOut" asp-route-id="@Model.Id" class="btn btn-confirm">Check-out</a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card mb-4">
+            <div class="card-content">
+                <h4 class="card-title">Habitación</h4>
+
+
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Número:</span>
+                        <strong>@(Model.Habitacion?.Numero.ToString() ?? "N/A")</strong>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Tipo:</span>
+                        <strong>@tipoHabitacion</strong>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Piso:</span>
+                        <strong>@(Model.Habitacion?.Piso.ToString() ?? "N/A")</strong>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Precio por noche:</span>
+                        <strong>$@(Model.Habitacion?.CostoPorNoche.ToString("N0") ?? "0")</strong>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Total estadía:</span>
+                        <strong>$@((Model.Habitacion?.CostoPorNoche * Model.DiasReserva ?? 0).ToString("N0"))</strong>
+                    </li>
+                </ul>
+                <div class="text-center mt-3">
+                    @if (Model.Habitacion != null)
+                    {
+                        <a asp-controller="Habitacion" asp-action="Detalle" asp-route-id="@Model.Habitacion.Numero" class="btn btn-secondary">
+                            Detalles
+                        </a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

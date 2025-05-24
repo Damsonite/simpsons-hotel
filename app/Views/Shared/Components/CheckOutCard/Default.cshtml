@@ -1,0 +1,17 @@
+<div class="card mb-4">
+    <div class="card-content">
+        <h5 class="card-title">Check-out</h5>
+
+        <p>Realiza el check-out de un huésped:</p>
+        <form asp-controller="Reserva" asp-action="CheckOut" method="get" class="row g-3">
+            <div class="col-md-8">
+                <input type="text" class="form-control" name="numeroDocumento" placeholder="Número de documento" required>
+            </div>
+            <div class="col-md-4">
+                <button type="submit" class="btn btn-danger w-100">Buscar</button>
+            </div>
+        </form>
+        <hr class="border-secondary" />
+        <p class="text-muted">Al realizar el check-out se generará la factura correspondiente con todos los consumos registrados.</p>
+    </div>
+</div>

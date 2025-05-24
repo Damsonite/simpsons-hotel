@@ -1,0 +1,60 @@
+@model SimpsonsHotel.Core.Classes.Huesped
+
+@{
+    ViewData["Title"] = "Check-Out";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card glass-effect mb-4">
+                <div class="card-content">
+                    <h4 class="card-title simpsons-text-blue">Confirmar Check-Out</h4>
+                    <p class="text-muted">Estás a punto de realizar el check-out del huésped. Se generará la factura correspondiente.</p>
+
+                    <div class="mb-4">
+                        <h5>Datos del Huésped</h5>
+                        <p><strong>Nombre:</strong> @Model.Nombre</p>
+                        <p><strong>Documento:</strong> @Model.TipoDocumento. @Model.NumeroDocumento</p>
+                        <p><strong>Habitación:</strong> @(Model.HabitacionAsignada != null ? Model.HabitacionAsignada.Numero.ToString() : "N/A")</p>
+                        <p><strong>Fecha de Llegada:</strong> @Model.FechaLlegada.ToString("dd/MM/yyyy")</p>
+                        <p><strong>Fecha de Salida:</strong> @Model.FechaSalida.ToString("dd/MM/yyyy")</p>
+                        <p><strong>Días de Estadía:</strong> @Model.DiasEstadia</p>
+                    </div>
+
+                    @if (Model.HabitacionAsignada != null)
+                    {
+                        <div class="mb-4">
+                            @await Component.InvokeAsync("FacturaCard", new {
+                                habitacion = Model.HabitacionAsignada, 
+                                fechaLlegada = Model.FechaLlegada,
+                                fechaSalida = Model.FechaSalida, 
+                                nombreHuesped = Model.Nombre
+                            })
+                        </div>
+                        
+                        <div class="d-flex justify-content-between">
+                            <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+                            @if (ViewBag.Reserva != null)
+                            {
+                                <form asp-action="ConfirmarCheckOut" method="post">
+                                    <input type="hidden" name="id" value="@ViewBag.Reserva.Id" />
+                                    <button type="submit" class="btn btn-danger">Confirmar Check-Out</button>
+                                </form>
+                            }
+                            else
+                            {
+                                <div class="alert alert-warning">No se encontró reserva asociada a este huésped</div>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-warning">El huésped no tiene habitación asignada actualmente.</div>
+                        <a asp-action="Index" class="btn btn-secondary">Volver</a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

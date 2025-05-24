@@ -1,0 +1,337 @@
+:root {
+  --primary: #fada5e;
+  --secondary: #a1d2f1;
+  --accent: #b88aff;
+  --text: #333333;
+  --background: #fafafa;
+  --confirm: #7ed957;
+  --danger: #f44336;
+}
+
+html {
+  font-size: 16px;
+  font-family: "Poppins", sans-serif;
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+  background-color: var(--background);
+  background-image: linear-gradient(
+    45deg,
+    rgba(161, 210, 241, 0.1) 25%,
+    transparent 25%,
+    transparent 50%,
+    rgba(161, 210, 241, 0.1) 50%,
+    rgba(161, 210, 241, 0.1) 75%,
+    transparent 75%,
+    transparent
+  );
+  background-size: 60px 60px;
+  color: var(--text);
+}
+
+.navbar {
+  background-color: rgba(161, 210, 241, 0.8);
+  padding: 1rem 1rem;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+
+.navbar .navbar-brand {
+  color: var(--primary);
+  font-family: "Comic Neue", cursive;
+  font-weight: 600;
+  transform: rotate(-2deg);
+  text-shadow: 1px 1px 0px var(--text), 2px 2px 0px rgba(0, 0, 0, 0.2);
+  font-size: 1.8rem;
+}
+
+.navbar .nav-link {
+  color: var(--text);
+  font-family: "Comic Neue", cursive;
+  font-weight: 600;
+  font-size: 1.2rem;
+}
+
+.navbar .navbar-brand:hover,
+.navbar .nav-link:hover {
+  color: var(--background);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Comic Neue", cursive;
+  font-weight: 700;
+  color: var(--text);
+}
+
+h1 {
+  margin-bottom: 4px;
+}
+
+.btn {
+  border-radius: 16px;
+  padding: 0.5rem 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease,
+    border-color 0.3s ease, transform 0.2s ease;
+  border: 2px solid transparent;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn-primary {
+  background-color: var(--primary);
+  border-color: var(--primary);
+  color: var(--text);
+}
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+  background-color: var(--accent);
+  border-color: var(--accent);
+  color: var(--background);
+}
+
+.btn-secondary {
+  background-color: var(--secondary);
+  border-color: var(--secondary);
+  color: var(--text);
+}
+
+.btn-confirm {
+  background-color: var(--confirm);
+  border-color: var(--confirm);
+  color: var(--background);
+}
+
+.btn-danger {
+  background-color: var(--danger);
+  border-color: var(--danger);
+  color: var(--background);
+}
+
+.btn-secondary:hover,
+.btn-secondary:focus,
+.btn-secondary:active,
+.btn-confirm:hover,
+.btn-confirm:focus,
+.btn-confirm:active,
+.btn-danger:hover,
+.btn-danger:focus,
+.btn-danger:active {
+  background-color: var(--accent);
+  border-color: var(--accent);
+  color: var(--background);
+}
+
+.btn:focus,
+.btn:active:focus,
+.btn-link.nav-link:focus,
+.form-control:focus,
+.form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem var(--background), 0 0 0 0.25rem var(--accent);
+}
+
+.card {
+  height: auto; /* Removed fixed height for cards to allow them to adjust based on their content */
+  overflow: visible; /* Ensure content is fully visible */
+  border-radius: 15px;
+  overflow: hidden; /* Ensure content does not overflow */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.card-header {
+  font-family: "Comic Neue", cursive;
+  font-weight: 700;
+  background-color: var(--secondary);
+  color: var(--text);
+  border-bottom: 2px solid var(--accent);
+}
+
+.footer.footer-custom-themed {
+  background-color: var(--secondary);
+  color: var(--text);
+  font-family: "Poppins", sans-serif;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.footer.footer-custom-themed p {
+  margin-bottom: 0.5rem;
+  color: var(--text);
+}
+
+.footer.footer-custom-themed a {
+  color: var(--text);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.footer.footer-custom-themed a:hover {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+.glassmorphism {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.glassmorphism:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.25);
+}
+
+.card-content {
+  padding: 20px;
+}
+
+.card-title {
+  margin-bottom: 0.5rem;
+  border-bottom: 2px solid var(--secondary);
+  padding-bottom: 0.5rem;
+  font-size: 1.5rem;
+}
+
+.card-description {
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.card-features-title {
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--secondary);
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.card-features-list {
+  font-family: "Poppins", sans-serif;
+  list-style: none;
+  padding-left: 0;
+  font-size: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+.card-features-list li {
+  padding: 0.25rem 0;
+  border-bottom: 1px solid var(--secondary);
+}
+.card-features-list li:last-child {
+  border-bottom: none;
+}
+
+.card-availability {
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: var(--text);
+  margin-bottom: 1.25rem;
+}
+
+.room-type-card .btn-primary {
+  background-color: var(--primary);
+  border-color: var(--primary);
+  color: var(--text);
+  font-weight: 600;
+}
+
+.room-type-card .btn-primary:hover,
+.room-type-card .btn-primary:focus {
+  background-color: var(--accent);
+  border-color: var(--accent);
+  color: var(--background);
+}
+
+.room-card {
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  color: var(--text);
+}
+
+.room-card-sencilla {
+  background: linear-gradient(
+    135deg,
+    rgba(161, 210, 241, 0.45),
+    rgba(161, 210, 241, 0.3)
+  );
+}
+
+.room-card-header-sencilla {
+  background-color: rgba(161, 210, 241, 0.6) !important;
+  color: var(--text) !important;
+  border-bottom: 1px solid rgba(161, 210, 241, 0.5) !important;
+}
+
+.room-card-ejecutiva {
+  background: linear-gradient(
+    135deg,
+    rgba(184, 138, 255, 0.45),
+    rgba(184, 138, 255, 0.3)
+  );
+}
+
+.room-card-header-ejecutiva {
+  background-color: rgba(184, 138, 255, 0.6) !important;
+  color: var(--background) !important;
+  border-bottom: 1px solid rgba(184, 138, 255, 0.5) !important;
+}
+
+.room-card-suite {
+  background: linear-gradient(
+    135deg,
+    rgba(250, 218, 94, 0.45),
+    rgba(250, 218, 94, 0.3)
+  );
+}
+
+.room-card-header-suite {
+  background-color: rgba(250, 218, 94, 0.6) !important;
+  color: var(--text) !important;
+  border-bottom: 1px solid rgba(250, 218, 94, 0.5) !important;
+}
+
+.room-card .card-body p,
+.room-card .card-body strong {
+  color: var(--text);
+}
+.room-card .card-body h5 {
+  color: var(--text);
+}
+
+.room-card .card-footer {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.badge-confirm {
+  background-color: var(--confirm);
+}
+.badge-danger {
+  background-color: var(--danger);
+}

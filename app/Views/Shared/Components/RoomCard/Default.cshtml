@@ -1,0 +1,25 @@
+@model app.ViewComponents.RoomCardViewModel
+@using app.Utils
+
+<div class="col">
+    <div class="card h-100 room-card @Model.CardBgClass">
+        <div class="card-header @Model.CardHeaderClass d-flex justify-content-between align-items-center">
+            <h5>@Model.Habitacion?.Numero</h5>
+            <span class="@Model.StatusBadgeClass">@Model.StatusText</span>
+        </div>
+        <div class="card-body">
+            <p><strong>Tipo:</strong> @Model.TipoHabitacion</p>
+            <p><strong>Interior:</strong> @Model.TipoCamaTexto</p>
+            <p><strong>Precio/noche</strong> @(Formatter.FormatPrice(Model.Habitacion?.CostoPorNoche ?? 0))</p> 
+        </div>
+        <div class="card-footer">
+            <div class="d-flex justify-content-between">
+                <a asp-controller="Habitacion" asp-action="Detalle" asp-route-id="@Model.Habitacion?.Numero" class="btn btn-secondary">Detalles</a>
+                @if (Model.Habitacion != null && !Model.Habitacion.Ocupada)
+                {
+                    <a asp-controller="Habitacion" asp-action="Reservar" asp-route-id="@Model.Habitacion?.Numero" class="btn btn-primary">Reservar</a> 
+                }
+            </div>
+        </div>
+    </div>
+</div>
